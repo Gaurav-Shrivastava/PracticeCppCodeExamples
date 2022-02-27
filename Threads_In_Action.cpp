@@ -4,8 +4,6 @@
 
 using namespace std;
 
-mutex cout_mutex;
-
 class Shape
 {
 public:
@@ -45,17 +43,20 @@ public:
 		cout << str << endl; 
 		cout_mutex.unlock();
 	}
+
+private:
+	mutex cout_mutex;
 };
 
 int main()
 {
 	Shape sobj;
-	thread t1(&Shape::Circle, sobj, "Shape::Circle()");
-	thread t2(&Shape::Square, sobj, "Shape::Square()");
-	thread t3(&Shape::Rectange, sobj, "Shape::Rectange()");
-	thread t4(&Shape::Triangle, sobj, "Shape::Triangle()");
-	thread t5(&Shape::Pentagon, sobj, "Shape::Pentagon()");
-	thread t6(&Shape::Hexagon, sobj, "Shape::Hexagon()");
+	thread t1(&Shape::Circle, &sobj, "Shape::Circle()");
+	thread t2(&Shape::Square, &sobj, "Shape::Square()");
+	thread t3(&Shape::Rectange, &sobj, "Shape::Rectange()");
+	thread t4(&Shape::Triangle, &sobj, "Shape::Triangle()");
+	thread t5(&Shape::Pentagon, &sobj, "Shape::Pentagon()");
+	thread t6(&Shape::Hexagon, &sobj, "Shape::Hexagon()");
 	
 	t1.join();
 	t2.join();
